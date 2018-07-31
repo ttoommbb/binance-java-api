@@ -1,0 +1,56 @@
+apply plugin: 'java'
+apply plugin: 'java-library'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+
+ext {
+    retrofitVersion = '2.3.0'
+    commonsCodecVersion = '1.10'
+    commonsLang3Version = '3.6'
+    junitVersion = '4.12'
+}
+
+group = 'com.binance.api'
+version = '1.0.0'
+
+description = """"""
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+
+repositories {
+
+    jcenter()
+    mavenCentral()
+    maven { url "http://repo.spring.io/release" }
+    maven { url "http://repo.maven.apache.org/maven2" }
+    mavenLocal()
+}
+dependencies {
+
+    implementation group: 'com.squareup.retrofit2', name: 'retrofit', version: retrofitVersion
+    implementation group: 'com.squareup.retrofit2', name: 'converter-jackson', version: retrofitVersion
+
+    implementation group: 'commons-codec', name: 'commons-codec', version: commonsCodecVersion
+
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: commonsLang3Version
+
+    testImplementation group: 'junit', name: 'junit', version: junitVersion
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allJava
+    classifier = 'sources'
+}
+
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+        }
+    }
+}
+
